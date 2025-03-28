@@ -16,14 +16,13 @@ cd ./cmd
 go build -o ../main
 ./main
 ```
-**注意：手动运行方式不支持Skywalking，如果需要支持Skywalking，可以参考Makefile，按照文件内命令编译**
+
 ## 脚本运行
 项目根目录内置了 Dockerfile、Makefile、docker-compose.yml 等文件
 目的是快速构建项目环境，简易化项目运行难度
 
 下面介绍 Makefile 中内置的几条指令，可根据需要在控制台**当前项目根目录下**进行相应操作的执行
 ```bash
-make tools          # 构建Skywalking-Agent二进制文件
 make                # 构建二进制文件并自动运行
 make build          # 构建二进制文件
 make env-up         # 拉起项目环境
@@ -31,13 +30,20 @@ make env-down       # 停止并删除环境
 make docker-up      # 以容器方式拉起项目
 make docker-down    # 停止并删除容器
 ```
-对于第一次运行本项目，可以按如下顺序执行
+  
+第一次运行本项目，按如下顺序执行
 1. 在Makefile中的前几行修改`ARCH`和`OS`以对应自己的电脑系统，在注释中提供了可选项
 2. 运行如下代码
 ```bash
-make env-up tools build # 拉起项目环境、编译Agent、构建项目二进制文件
-./main                  # 运行项目
+make env-up build   # 拉起项目环境、编译Agent、构建项目二进制文件
+./main              # 运行项目
 ```
+
+后续调试
+```bash
+make                # 构建二进制文件并自动运行
+```
+
 
 # 主要功能
 

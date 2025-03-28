@@ -1,3 +1,0 @@
-[submodule "skywalking-go"]
-	path = skywalking-go
-	url = https://github.com/apache/skywalking-go
