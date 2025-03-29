@@ -1,13 +1,13 @@
 version: '3.7'
 
 networks:
-    mall:
-        driver: bridge
+  mall:
+    driver: bridge
 
 services:
-  mysql:
-    container_name: mysql
-    image: mysql:latest
+  mysql-master:
+    container_name: mysql-master
+    image: mysql:8.0.26
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=root
@@ -15,10 +15,39 @@ services:
       - MYSQL_USER=mall
       - MYSQL_PASSWORD=123456
       - TZ=Asia/Shanghai
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --require_secure_transport=OFF
     volumes:
-      - ./config/sql:/docker-entrypoint-initdb.d/
+      - ./master-data:/var/lib/mysql
     ports:
       - "3306:3306"
+    networks:
+      - mall
+
+  mysql-slave1:
+    container_name: mysql-slave1
+    image: mysql:8.0.26
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mall_db
+      - MYSQL_USER=mall
+      - MYSQL_PASSWORD=123456
+      - TZ=Asia/Shanghai
+    command: >
+      --server-id=2
+      --relay-log=relay-bin
+      --read-only=1
+      --require_secure_transport=OFF
+    volumes:
+      - ./slave1-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - mall
 
   redis:
     container_name: redis

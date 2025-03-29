@@ -36,14 +36,55 @@ make docker-down    # 停止并删除容器
 2. 运行如下代码
 ```bash
 make env-up build   # 拉起项目环境、编译Agent、构建项目二进制文件
-./main              # 运行项目
+./main              # 最后再运行项目
+```
+设置数据库主从  
+进入主数据库
+```shell
+docker exec -it mysql-master bash
+mysql -u root -p
+```
+创建主从账户
+```mysql
+CREATE USER 'repl'@'%' IDENTIFIED WITH mysql_native_password BY 'repl_password';
+GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%';
+FLUSH PRIVILEGES;
+SHOW MASTER STATUS;
+```
+查看得到
+```
++------------------+----------+--------------+------------------+-------------------+
+| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |
++------------------+----------+--------------+------------------+-------------------+
+| mysql-bin.000003 |      826 |              |                  |                   |
++------------------+----------+--------------+------------------+-------------------+
+1 row in set (0.00 sec)
 ```
 
-后续调试
-```bash
-make                # 构建二进制文件并自动运行
+进入从数据库
+```shell
+docker exec -it mysql-slave1 bash
+mysql -u root -p
 ```
 
+执行
+```mysql
+CHANGE MASTER TO
+    MASTER_HOST='mysql-master',
+    MASTER_USER='repl',
+    MASTER_PASSWORD='repl_password',  -- 确保密码正确
+    MASTER_LOG_FILE='mysql-bin.000003', -- 这里替换为上面查询到的值
+    MASTER_LOG_POS=826;
+
+START SLAVE;
+```
+确认以下字段：  
+Slave_IO_Running: Yes  
+Slave_SQL_Running: Yes  
+Seconds_Behind_Master 为 0 或较小值。
+```mysql
+SHOW SLAVE STATUS\G;
+```
 
 # 主要功能
 

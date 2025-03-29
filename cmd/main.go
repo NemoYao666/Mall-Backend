@@ -25,8 +25,8 @@ func main() {
 
 // loading一些配置
 func loading() {
-	conf.InitConfig()
-	dao.InitMySQL()
+	conf.InitConfig() // viper读取配置文件
+	dao.InitMySQL()   // 数据库主从架构读写分离
 	cache.InitCache()
 	rabbitmq.InitRabbitMQ() // 如果需要接入RabbitMQ可以打开这个注释
 	es.InitEs()             // 如果需要接入ELK可以打开这个注释

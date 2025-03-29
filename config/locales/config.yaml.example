@@ -7,10 +7,18 @@ system:
   UploadModel: "local"
 
 mysql:
-  default:
+  master:
     dialect: "mysql"
     dbHost: "127.0.0.1"
     dbPort: "3306"
+    dbName: "mall_db"
+    userName: "mall"
+    password: "123456"
+    charset: "utf8mb4"
+  slave1:
+    dialect: "mysql"
+    dbHost: "127.0.0.1"
+    dbPort: "3307"
     dbName: "mall_db"
     userName: "mall"
     password: "123456"
