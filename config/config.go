@@ -52,12 +52,10 @@ type System struct {
 }
 
 type Oss struct {
-	BucketName      string `yaml:"bucketName"`
-	AccessKeyId     string `yaml:"accessKeyId"`
-	AccessKeySecret string `yaml:"accessKeySecret"`
-	Endpoint        string `yaml:"endPoint"`
-	EndpointOut     string `yaml:"endpointOut"`
-	QiNiuServer     string `yaml:"qiNiuServer"`
+	SecretId   string `yaml:"SecretId"`
+	SecretKey  string `yaml:"SecretKey"`
+	BucketName string `yaml:"BucketName"`
+	Region     string `yaml:"Region"`
 }
 
 type MySql struct {

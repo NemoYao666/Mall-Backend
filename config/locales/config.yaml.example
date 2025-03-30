@@ -48,21 +48,21 @@ cache:
   cacheServer:
 
 email:
-  address: http://localhost:8080/#/vaild/email/
+  ValidEmail: http://localhost:5001/api/v1/user/valid_email?token=
   smtpHost:
   smtpEmail:
   smtpPass:
 
 encryptSecret:
-  jwtSecret: "FanOne666Secret"
+  jwtSecret: "Parker666Secret"
   emailSecret: "EmailSecret"
   phoneSecret: "PhoneSecret"
 
 oss:
-  AccessKeyId:
-  AccessKeySecret:
+  SecretId:
+  SecretKey:
   BucketName:
-  QiNiuServer:
+  Region:
 
 photoPath:
   photoHost: http://127.0.0.1

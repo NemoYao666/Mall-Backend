@@ -64,10 +64,10 @@ func (s *UserSrv) UserRegister(ctx context.Context, req *types.UserRegisterReq) 
 	user.Money = money
 	// 默认头像走的local
 	user.Avatar = consts.UserDefaultAvatarLocal
-	if conf.Config.System.UploadModel == consts.UploadModelOss {
-		// 如果配置是走oss，则用url作为默认头像
-		user.Avatar = consts.UserDefaultAvatarOss
-	}
+	//if conf.Config.System.UploadModel == consts.UploadModelOss {
+	//	// 如果配置是走oss，则用url作为默认头像
+	//	user.Avatar = consts.UserDefaultAvatarOss
+	//}
 
 	// 创建用户
 	err = userDao.CreateUser(user)
@@ -143,7 +143,7 @@ func (s *UserSrv) UserInfoUpdate(ctx context.Context, req *types.UserInfoUpdateR
 }
 
 // UserAvatarUpload 更新头像
-func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fileSize int64, req *types.UserServiceReq) (resp interface{}, err error) {
+func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fileName string, req *types.UserServiceReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
 		log.LogrusObj.Error(err)
@@ -161,7 +161,7 @@ func (s *UserSrv) UserAvatarUpload(ctx context.Context, file multipart.File, fil
 	if conf.Config.System.UploadModel == consts.UploadModelLocal { // 兼容两种存储方式
 		path, err = util.AvatarUploadToLocalStatic(file, uId, user.UserName)
 	} else {
-		path, err = util.UploadToQiNiu(file, fileSize)
+		path, err = util.UploadToCos(file, fileName)
 	}
 	if err != nil {
 		log.LogrusObj.Error(err)

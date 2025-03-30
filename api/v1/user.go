@@ -121,10 +121,9 @@ func UploadAvatarHandler() gin.HandlerFunc {
 			log.LogrusObj.Infoln(err)
 			return
 		}
-		fileSize := fileHeader.Size
 
 		l := service.GetUserSrv()
-		resp, err := l.UserAvatarUpload(ctx.Request.Context(), file, fileSize, &req)
+		resp, err := l.UserAvatarUpload(ctx.Request.Context(), file, fileHeader.Filename, &req)
 		if err != nil {
 			log.LogrusObj.Infoln(err)
 			ctx.JSON(http.StatusInternalServerError, ErrorResponse(ctx, err))

@@ -78,7 +78,7 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 	if conf.Config.System.UploadModel == consts.UploadModelLocal {
 		path, err = util.ProductUploadToLocalStatic(tmp, uId, req.Name)
 	} else {
-		path, err = util.UploadToQiNiu(tmp, files[0].Size)
+		path, err = util.UploadToCos(tmp, files[0].Filename)
 	}
 	if err != nil {
 		log.LogrusObj.Error(err)
@@ -113,7 +113,7 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 		if conf.Config.System.UploadModel == consts.UploadModelLocal {
 			path, err = util.ProductUploadToLocalStatic(tmp, uId, req.Name+num)
 		} else {
-			path, err = util.UploadToQiNiu(tmp, file.Size)
+			path, err = util.UploadToCos(tmp, file.Filename)
 		}
 		if err != nil {
 			log.LogrusObj.Error(err)
