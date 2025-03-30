@@ -9,7 +9,7 @@ import (
 	"github.com/CocaineCong/gin-mall/consts"
 )
 
-var jwtSecret = []byte("FanOne")
+var jwtSecret = []byte("Parker")
 
 type Claims struct {
 	ID       uint   `json:"id"`
@@ -86,7 +86,6 @@ func ParseRefreshToken(aToken, rToken string) (newAToken, newRToken string, err 
 	return "", "", errors.New("身份过期，重新登陆")
 }
 
-// EmailClaims
 type EmailClaims struct {
 	UserID        uint   `json:"user_id"`
 	Email         string `json:"email"`

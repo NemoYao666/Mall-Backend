@@ -31,5 +31,5 @@ func FromContext(ctx context.Context) (*UserInfo, bool) {
 }
 
 func InitUserInfo(ctx context.Context) {
-	// TOOD 放缓存，之后的用户信息，走缓存
+	// TODO: 放缓存，之后的用户信息，走缓存
 }

@@ -17,7 +17,7 @@ func TestMain(m *testing.M) {
 func TestUserModelEncryptMoney(t *testing.T) {
 	key := "123456" // 6位支付密码
 	u := User{
-		UserName: "FanOne",
+		UserName: "Parker",
 		Money:    "10000",
 	}
 	t.Logf("u before encrypt money:%s", u.Money)

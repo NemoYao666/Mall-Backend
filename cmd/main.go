@@ -25,14 +25,14 @@ func main() {
 
 // loading一些配置
 func loading() {
-	conf.InitConfig() // viper读取配置文件
-	dao.InitMySQL()   // 数据库主从架构读写分离
-	cache.InitCache()
-	rabbitmq.InitRabbitMQ() // 如果需要接入RabbitMQ可以打开这个注释
-	es.InitEs()             // 如果需要接入ELK可以打开这个注释
-	kafka.InitKafka()
-	track.InitJaeger()
-	util.InitLog() // 如果接入ELK请进入这个func打开注释
+	conf.InitConfig()       // viper读取配置文件
+	dao.InitMySQL()         // 数据库主从架构读写分离
+	cache.InitCache()       // redis 初始化
+	rabbitmq.InitRabbitMQ() // RabbitMQ 初始化
+	es.InitEs()             // ELK 初始化
+	kafka.InitKafka()       // kafka 初始化
+	track.InitJaeger()      // jaeger 初始化
+	util.InitLog()          // 接入ELK日志初始化
 	fmt.Println("加载配置完成...")
 	go scriptStarting()
 }

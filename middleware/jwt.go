@@ -66,7 +66,7 @@ func SetToken(c *gin.Context, accessToken, refreshToken string) {
 	c.SetCookie(consts.RefreshTokenHeader, refreshToken, consts.MaxAge, "/", "", secure, true)
 }
 
-// 判断是否https
+// IsHttps 判断是否https
 func IsHttps(c *gin.Context) bool {
 	if c.GetHeader(consts.HeaderForwardedProto) == "https" || c.Request.TLS != nil {
 		return true
