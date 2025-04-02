@@ -197,6 +197,50 @@ func UserUnFollowingHandler() gin.HandlerFunc {
 	}
 }
 
+func UserFollowingListHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.UserFollowingListReq
+		if err := ctx.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(ctx, err))
+			return
+		}
+
+		l := service.GetUserSrv()
+		resp, err := l.UserFollowingList(ctx.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusInternalServerError, ErrorResponse(ctx, err))
+			return
+		}
+
+		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	}
+}
+
+func UserFollowerListHandler() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		var req types.UserFollowerListReq
+		if err := ctx.ShouldBind(&req); err != nil {
+			// 参数校验
+			log.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusBadRequest, ErrorResponse(ctx, err))
+			return
+		}
+
+		l := service.GetUserSrv()
+		resp, err := l.UserFollowerList(ctx.Request.Context(), &req)
+		if err != nil {
+			log.LogrusObj.Infoln(err)
+			ctx.JSON(http.StatusInternalServerError, ErrorResponse(ctx, err))
+			return
+		}
+
+		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	}
+}
+
 func ValidEmailHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var req types.ValidEmailServiceReq

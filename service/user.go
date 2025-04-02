@@ -313,3 +313,55 @@ func (s *UserSrv) UserUnFollow(ctx context.Context, req *types.UserUnFollowingRe
 
 	return
 }
+
+func (s *UserSrv) UserFollowingList(ctx context.Context, req *types.UserFollowingListReq) (resp interface{}, err error) {
+
+	users, err := dao.NewUserDao(ctx).ListFollowing(req.Id, req.Start, req.Limit)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return
+	}
+	var ans []*types.UserInfoResp
+
+	for _, us := range users {
+		ans = append(ans, &types.UserInfoResp{
+			ID:       us.ID,
+			UserName: us.UserName,
+			NickName: us.NickName,
+			Email:    us.Email,
+			Status:   us.Status,
+			Avatar:   us.AvatarURL(),
+		})
+	}
+	resp = &types.UserFollowingListResp{
+		Users: ans,
+	}
+
+	return
+}
+
+func (s *UserSrv) UserFollowerList(ctx context.Context, req *types.UserFollowerListReq) (resp interface{}, err error) {
+
+	users, err := dao.NewUserDao(ctx).ListFollower(req.Id, req.Start, req.Limit)
+	if err != nil {
+		log.LogrusObj.Error(err)
+		return
+	}
+	var ans []*types.UserInfoResp
+
+	for _, us := range users {
+		ans = append(ans, &types.UserInfoResp{
+			ID:       us.ID,
+			UserName: us.UserName,
+			NickName: us.NickName,
+			Email:    us.Email,
+			Status:   us.Status,
+			Avatar:   us.AvatarURL(),
+		})
+	}
+	resp = &types.UserFollowingListResp{
+		Users: ans,
+	}
+
+	return
+}

@@ -32,12 +32,43 @@ type UserInfoUpdateReq struct {
 type UserInfoShowReq struct {
 }
 
+type UserInfoResp struct {
+	ID       uint   `json:"id"`
+	UserName string `json:"user_name"`
+	NickName string `json:"nickname"`
+	Type     int    `json:"type"`
+	Email    string `json:"email"`
+	Status   string `json:"status"`
+	Avatar   string `json:"avatar"`
+	CreateAt int64  `json:"create_at"`
+}
+
 type UserFollowingReq struct {
 	Id uint `json:"id" form:"id"`
 }
 
 type UserUnFollowingReq struct {
 	Id uint `json:"id" form:"id"`
+}
+
+type UserFollowingListReq struct {
+	Id    uint `json:"id" form:"id"`
+	Start int  `json:"start" form:"start"`
+	Limit int  `json:"limit" form:"limit"`
+}
+
+type UserFollowingListResp struct {
+	Users []*UserInfoResp `json:"users"`
+}
+
+type UserFollowerListReq struct {
+	Id    uint `json:"id" form:"id"`
+	Start int  `json:"start" form:"start"`
+	Limit int  `json:"limit" form:"limit"`
+}
+
+type UserFollowerListResp struct {
+	Users []*UserInfoResp `json:"users"`
 }
 
 type SendEmailServiceReq struct {
@@ -49,15 +80,4 @@ type SendEmailServiceReq struct {
 
 type ValidEmailServiceReq struct {
 	Token string `json:"token" form:"token"`
-}
-
-type UserInfoResp struct {
-	ID       uint   `json:"id"`
-	UserName string `json:"user_name"`
-	NickName string `json:"nickname"`
-	Type     int    `json:"type"`
-	Email    string `json:"email"`
-	Status   string `json:"status"`
-	Avatar   string `json:"avatar"`
-	CreateAt int64  `json:"create_at"`
 }

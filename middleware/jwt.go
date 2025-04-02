@@ -58,6 +58,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
+// SetToken 存储到响应头中，前端更新token，确保后面请求头携带新的token
 func SetToken(c *gin.Context, accessToken, refreshToken string) {
 	secure := IsHttps(c)
 	c.Header(consts.AccessTokenHeader, accessToken)

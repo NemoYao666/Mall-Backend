@@ -29,6 +29,8 @@ func NewRouter() *gin.Engine {
 		v1.POST("user/register", api.UserRegisterHandler())
 		v1.POST("user/login", api.UserLoginHandler())
 		v1.GET("user/valid_email", api.ValidEmailHandler())
+		v1.GET("user/following/list", api.UserFollowingListHandler()) // 关注列表
+		v1.GET("user/follower/list", api.UserFollowerListHandler())   // 粉丝列表
 
 		// 商品操作
 		v1.GET("product/list", api.ListProductsHandler())
