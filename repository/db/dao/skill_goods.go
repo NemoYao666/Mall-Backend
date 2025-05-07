@@ -5,8 +5,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/CocaineCong/gin-mall/consts"
-	"github.com/CocaineCong/gin-mall/repository/db/model"
+	"gin-mall-backend/consts"
+	"gin-mall-backend/repository/db/model"
 )
 
 type SkillGoodsDao struct {

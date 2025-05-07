@@ -3,14 +3,14 @@ package v1
 import (
 	"net/http"
 
-	"github.com/CocaineCong/gin-mall/consts"
+	"gin-mall-backend/consts"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	"github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/service"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/pkg/utils/ctl"
+	"gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/service"
+	"gin-mall-backend/types"
 )
 
 // CreateAddressHandler 新增收货地址

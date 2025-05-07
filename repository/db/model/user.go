@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/cast"
 	"golang.org/x/crypto/bcrypt"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	"github.com/CocaineCong/gin-mall/consts"
+	conf "gin-mall-backend/config"
+	"gin-mall-backend/consts"
 )
 
 // User 用户模型

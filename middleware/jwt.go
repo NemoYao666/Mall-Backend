@@ -3,10 +3,10 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/CocaineCong/gin-mall/consts"
-	"github.com/CocaineCong/gin-mall/pkg/e"
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	util "github.com/CocaineCong/gin-mall/pkg/utils/jwt"
+	"gin-mall-backend/consts"
+	"gin-mall-backend/pkg/e"
+	"gin-mall-backend/pkg/utils/ctl"
+	util "gin-mall-backend/pkg/utils/jwt"
 )
 
 // AuthMiddleware token验证中间件

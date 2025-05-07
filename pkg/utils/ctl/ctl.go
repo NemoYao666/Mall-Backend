@@ -3,12 +3,11 @@ package ctl
 import (
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"regexp"
 
-	"github.com/gin-gonic/gin"
-
-	"github.com/CocaineCong/gin-mall/consts"
-	"github.com/CocaineCong/gin-mall/pkg/e"
+	"gin-mall-backend/consts"
+	"gin-mall-backend/pkg/e"
 )
 
 // Response 基础序列化器
@@ -72,8 +71,8 @@ func RespError(ctx *gin.Context, err error, data string, code ...int) *TrackedEr
 func getTrackIdFromCtx(ctx *gin.Context) (trackId string, err error) {
 	spanCtxInterface, _ := ctx.Get(consts.SpanCTX)
 	str := fmt.Sprintf("%v", spanCtxInterface)
+	// OpenTelemetry 的 Trace ID 是 16 字节的十六进制字符串
 	re := regexp.MustCompile(`([0-9a-fA-F]{16})`)
-
 	match := re.FindStringSubmatch(str)
 	if len(match) > 0 {
 		return match[1], nil

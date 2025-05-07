@@ -5,13 +5,13 @@ import (
 	"errors"
 	"sync"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	"github.com/CocaineCong/gin-mall/consts"
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	util "github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/repository/db/dao"
-	"github.com/CocaineCong/gin-mall/repository/db/model"
-	"github.com/CocaineCong/gin-mall/types"
+	conf "gin-mall-backend/config"
+	"gin-mall-backend/consts"
+	"gin-mall-backend/pkg/utils/ctl"
+	util "gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/repository/db/dao"
+	"gin-mall-backend/repository/db/model"
+	"gin-mall-backend/types"
 )
 
 var FavoriteSrvIns *FavoriteSrv

@@ -3,13 +3,14 @@ package v1
 import (
 	"encoding/json"
 	"fmt"
-
+	"gin-mall-backend/consts"
+	"gin-mall-backend/pkg/utils/log"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	"github.com/CocaineCong/gin-mall/pkg/e"
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
+	conf "gin-mall-backend/config"
+	"gin-mall-backend/pkg/e"
+	"gin-mall-backend/pkg/utils/ctl"
 )
 
 func ErrorResponse(ctx *gin.Context, err error) *ctl.TrackedErrorResponse {
@@ -26,4 +27,15 @@ func ErrorResponse(ctx *gin.Context, err error) *ctl.TrackedErrorResponse {
 	}
 
 	return ctl.RespError(ctx, err, err.Error(), e.ERROR)
+}
+
+func StandardResponse(ctx *gin.Context, err error, data interface{}) {
+	if err == nil {
+		ctx.JSON(consts.StatusOK, ctl.RespSuccess(ctx, data))
+		return
+	}
+
+	log.LogrusObj.Infoln(err)
+	ctx.JSON(consts.ServerError, ErrorResponse(ctx, err))
+	return
 }

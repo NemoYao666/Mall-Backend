@@ -5,10 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	"github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/service"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/pkg/utils/ctl"
+	"gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/service"
+	"gin-mall-backend/types"
 )
 
 // InitSkillProductHandler 初始化秒杀商品信息

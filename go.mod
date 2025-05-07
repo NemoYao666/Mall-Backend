@@ -1,4 +1,4 @@
-module github.com/CocaineCong/gin-mall
+module gin-mall-backend
 
 go 1.18
 

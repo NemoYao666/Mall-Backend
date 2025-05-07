@@ -5,7 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 
-	"github.com/CocaineCong/gin-mall/repository/cache"
+	"gin-mall-backend/repository/cache"
 )
 
 // 商品模型

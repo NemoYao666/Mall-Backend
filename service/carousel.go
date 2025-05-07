@@ -4,9 +4,9 @@ import (
 	"context"
 	"sync"
 
-	util "github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/repository/db/dao"
-	"github.com/CocaineCong/gin-mall/types"
+	util "gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/repository/db/dao"
+	"gin-mall-backend/types"
 )
 
 var CarouselSrvIns *CarouselSrv

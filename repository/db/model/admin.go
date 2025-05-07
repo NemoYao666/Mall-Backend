@@ -4,8 +4,8 @@ import (
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	"github.com/CocaineCong/gin-mall/consts"
+	conf "gin-mall-backend/config"
+	"gin-mall-backend/consts"
 )
 
 type Admin struct {

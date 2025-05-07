@@ -10,8 +10,8 @@ import (
 	"github.com/Shopify/sarama"
 	"go.uber.org/zap"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	"github.com/CocaineCong/gin-mall/pkg/utils/log"
+	conf "gin-mall-backend/config"
+	"gin-mall-backend/pkg/utils/log"
 )
 
 type Kafka struct {

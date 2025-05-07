@@ -7,8 +7,8 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 
-	api "github.com/CocaineCong/gin-mall/api/v1"
-	"github.com/CocaineCong/gin-mall/middleware"
+	api "gin-mall-backend/api/v1"
+	"gin-mall-backend/middleware"
 )
 
 // NewRouter 路由配置
@@ -26,11 +26,11 @@ func NewRouter() *gin.Engine {
 		})
 
 		// 用户操作
-		v1.POST("user/register", api.UserRegisterHandler())
-		v1.POST("user/login", api.UserLoginHandler())
-		v1.GET("user/valid_email", api.ValidEmailHandler())
-		v1.GET("user/following/list", api.UserFollowingListHandler()) // 关注列表
-		v1.GET("user/follower/list", api.UserFollowerListHandler())   // 粉丝列表
+		v1.POST("user/register", api.UserRegisterHandler)
+		v1.POST("user/login", api.UserLoginHandler)
+		v1.GET("user/valid_email", api.ValidEmailHandler)
+		v1.GET("user/following/list", api.UserFollowingListHandler) // 关注列表
+		v1.GET("user/follower/list", api.UserFollowerListHandler)   // 粉丝列表
 
 		// 商品操作
 		v1.GET("product/list", api.ListProductsHandler())
@@ -45,12 +45,12 @@ func NewRouter() *gin.Engine {
 		{
 
 			// 用户操作
-			authed.POST("user/update", api.UserUpdateHandler())
-			authed.GET("user/show_info", api.ShowUserInfoHandler())
-			authed.POST("user/send_email", api.SendEmailHandler())
-			authed.POST("user/following", api.UserFollowingHandler())
-			authed.POST("user/unfollowing", api.UserUnFollowingHandler())
-			authed.POST("user/avatar", api.UploadAvatarHandler()) // 上传头像
+			authed.POST("user/update", api.UserUpdateHandler)
+			authed.GET("user/show_info", api.ShowUserInfoHandler)
+			authed.POST("user/send_email", api.SendEmailHandler)
+			authed.POST("user/following", api.UserFollowingHandler)
+			authed.POST("user/unfollowing", api.UserUnFollowingHandler)
+			authed.POST("user/avatar", api.UploadAvatarHandler) // 上传头像
 
 			// 商品操作
 			authed.POST("product/create", api.CreateProductHandler())

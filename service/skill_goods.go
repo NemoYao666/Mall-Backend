@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/repository/cache"
-	"github.com/CocaineCong/gin-mall/repository/db/dao"
-	"github.com/CocaineCong/gin-mall/repository/db/model"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/repository/cache"
+	"gin-mall-backend/repository/db/dao"
+	"gin-mall-backend/repository/db/model"
+	"gin-mall-backend/types"
 )
 
 var SkillProductSrvIns *SkillProductSrv

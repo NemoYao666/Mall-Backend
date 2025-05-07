@@ -5,8 +5,8 @@ import (
 
 	"gorm.io/gorm"
 
-	"github.com/CocaineCong/gin-mall/repository/db/model"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/repository/db/model"
+	"gin-mall-backend/types"
 )
 
 type AddressDao struct {

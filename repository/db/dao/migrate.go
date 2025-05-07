@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"github.com/CocaineCong/gin-mall/repository/db/model"
+	"gin-mall-backend/repository/db/model"
 )
 
 func migrate() (err error) {

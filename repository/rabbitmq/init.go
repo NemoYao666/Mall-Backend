@@ -5,7 +5,7 @@ import (
 
 	amqp "github.com/rabbitmq/amqp091-go"
 
-	conf "github.com/CocaineCong/gin-mall/config"
+	conf "gin-mall-backend/config"
 )
 
 // GlobalRabbitMQ rabbitMQ链接单例

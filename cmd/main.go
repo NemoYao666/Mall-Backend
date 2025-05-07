@@ -3,15 +3,15 @@ package main
 import (
 	"fmt"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	util "github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/pkg/utils/track"
-	"github.com/CocaineCong/gin-mall/repository/cache"
-	"github.com/CocaineCong/gin-mall/repository/db/dao"
-	"github.com/CocaineCong/gin-mall/repository/es"
-	"github.com/CocaineCong/gin-mall/repository/kafka"
-	"github.com/CocaineCong/gin-mall/repository/rabbitmq"
-	"github.com/CocaineCong/gin-mall/routes"
+	conf "gin-mall-backend/config"
+	util "gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/pkg/utils/track"
+	"gin-mall-backend/repository/cache"
+	"gin-mall-backend/repository/db/dao"
+	"gin-mall-backend/repository/es"
+	"gin-mall-backend/repository/kafka"
+	"gin-mall-backend/repository/rabbitmq"
+	"gin-mall-backend/routes"
 
 	_ "github.com/apache/skywalking-go"
 )

@@ -3,7 +3,7 @@ package upload
 import (
 	"context"
 	"fmt"
-	conf "github.com/CocaineCong/gin-mall/config"
+	conf "gin-mall-backend/config"
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"mime/multipart"
 	"net/http"

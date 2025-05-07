@@ -5,11 +5,11 @@ import (
 	"errors"
 	"sync"
 
-	"github.com/CocaineCong/gin-mall/pkg/e"
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	util "github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/repository/db/dao"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/pkg/e"
+	"gin-mall-backend/pkg/utils/ctl"
+	util "gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/repository/db/dao"
+	"gin-mall-backend/types"
 )
 
 var CartSrvIns *CartSrv

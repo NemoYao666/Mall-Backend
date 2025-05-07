@@ -6,7 +6,7 @@ import (
 	"path"
 	"time"
 
-	"github.com/CocaineCong/gin-mall/repository/es"
+	"gin-mall-backend/repository/es"
 
 	"github.com/sirupsen/logrus"
 )

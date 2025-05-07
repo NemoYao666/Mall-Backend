@@ -8,8 +8,8 @@ import (
 	"os"
 	"strconv"
 
-	conf "github.com/CocaineCong/gin-mall/config"
-	util "github.com/CocaineCong/gin-mall/pkg/utils/log"
+	conf "gin-mall-backend/config"
+	util "gin-mall-backend/pkg/utils/log"
 )
 
 // ProductUploadToLocalStatic 上传到本地文件中

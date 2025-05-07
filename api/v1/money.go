@@ -3,13 +3,13 @@ package v1
 import (
 	"net/http"
 
-	"github.com/CocaineCong/gin-mall/pkg/utils/ctl"
-	"github.com/CocaineCong/gin-mall/service"
+	"gin-mall-backend/pkg/utils/ctl"
+	"gin-mall-backend/service"
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/CocaineCong/gin-mall/pkg/utils/log"
-	"github.com/CocaineCong/gin-mall/types"
+	"gin-mall-backend/pkg/utils/log"
+	"gin-mall-backend/types"
 )
 
 func ShowMoneyHandler() gin.HandlerFunc {
