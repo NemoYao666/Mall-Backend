@@ -1,104 +1,104 @@
 package v1
 
 import (
-	"net/http"
-
 	"gin-mall-backend/consts"
 
 	"github.com/gin-gonic/gin"
 
-	"gin-mall-backend/pkg/utils/ctl"
-	"gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/service"
 	"gin-mall-backend/types"
 )
 
-func CreateCartHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.CartCreateReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func CreateCartHandler(ctx *gin.Context) {
+	var (
+		req  types.CartCreateReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetCartSrv()
-		resp, err := l.CartCreate(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetCartSrv()
+	resp, err = l.CartCreate(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // ListCartHandler 购物车详细信息
-func ListCartHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.CartListReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		if req.PageSize == 0 {
-			req.PageSize = consts.BasePageSize
-		}
+func ListCartHandler(ctx *gin.Context) {
+	var (
+		req  types.CartListReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetCartSrv()
-		resp, err := l.CartList(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+	if req.PageSize == 0 {
+		req.PageSize = consts.BasePageSize
+	}
+
+	l := service.GetCartSrv()
+	resp, err = l.CartList(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // UpdateCartHandler 修改购物车信息
-func UpdateCartHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.UpdateCartServiceReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func UpdateCartHandler(ctx *gin.Context) {
+	var (
+		req  types.UpdateCartServiceReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetCartSrv()
-		resp, err := l.CartUpdate(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetCartSrv()
+	resp, err = l.CartUpdate(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // DeleteCartHandler 删除购物车
-func DeleteCartHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.CartDeleteReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func DeleteCartHandler(ctx *gin.Context) {
+	var (
+		req  types.CartDeleteReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetCartSrv()
-		resp, err := l.CartDelete(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetCartSrv()
+	resp, err = l.CartDelete(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }

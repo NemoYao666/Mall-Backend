@@ -7,7 +7,6 @@ import (
 
 	"gin-mall-backend/pkg/e"
 	"gin-mall-backend/pkg/utils/ctl"
-	util "gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/types"
 )
@@ -29,13 +28,11 @@ func GetCartSrv() *CartSrv {
 func (s *CartSrv) CartCreate(ctx context.Context, req *types.CartCreateReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	// 判断有无这个商品
 	_, err = dao.NewProductDao(ctx).GetProductById(req.ProductId)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -53,12 +50,10 @@ func (s *CartSrv) CartCreate(ctx context.Context, req *types.CartCreateReq) (res
 func (s *CartSrv) CartList(ctx context.Context, req *types.CartListReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	carts, err := dao.NewCartDao(ctx).ListCartByUserId(u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -74,12 +69,10 @@ func (s *CartSrv) CartList(ctx context.Context, req *types.CartListReq) (resp in
 func (s *CartSrv) CartUpdate(ctx context.Context, req *types.UpdateCartServiceReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	err = dao.NewCartDao(ctx).UpdateCartNumById(req.Id, u.Id, req.Num)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -90,12 +83,10 @@ func (s *CartSrv) CartUpdate(ctx context.Context, req *types.UpdateCartServiceRe
 func (s *CartSrv) CartDelete(ctx context.Context, req *types.CartDeleteReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	err = dao.NewCartDao(ctx).DeleteCartById(req.Id, u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 

@@ -4,7 +4,6 @@ import (
 	"context"
 	"sync"
 
-	util "gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/types"
 )
@@ -26,7 +25,6 @@ func GetCarouselSrv() *CarouselSrv {
 func (s *CarouselSrv) ListCarousel(ctx context.Context, req *types.ListCarouselReq) (resp interface{}, err error) {
 	carousels, err := dao.NewCarouselDao(ctx).ListCarousel()
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 

@@ -1,99 +1,99 @@
 package v1
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
-	"gin-mall-backend/pkg/utils/ctl"
-	"gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/service"
 	"gin-mall-backend/types"
 )
 
 // InitSkillProductHandler 初始化秒杀商品信息
-func InitSkillProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ListSkillProductReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func InitSkillProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ListSkillProductReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetSkillProductSrv()
-		resp, err := l.InitSkillGoods(ctx.Request.Context())
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetSkillProductSrv()
+	resp, err = l.InitSkillGoods(ctx.Request.Context())
+	if err != nil {
+		return
+	}
+
 }
 
 // ListSkillProductHandler 初始化秒杀商品信息
-func ListSkillProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ListSkillProductReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func ListSkillProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ListSkillProductReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetSkillProductSrv()
-		resp, err := l.ListSkillGoods(ctx.Request.Context())
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetSkillProductSrv()
+	resp, err = l.ListSkillGoods(ctx.Request.Context())
+	if err != nil {
+		return
+	}
+
 }
 
 // GetSkillProductHandler 获取秒杀商品的详情
-func GetSkillProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.GetSkillProductReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func GetSkillProductHandler(ctx *gin.Context) {
+	var (
+		req  types.GetSkillProductReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetSkillProductSrv()
-		resp, err := l.GetSkillGoods(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetSkillProductSrv()
+	resp, err = l.GetSkillGoods(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
-func SkillProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.SkillProductReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func SkillProductHandler(ctx *gin.Context) {
+	var (
+		req  types.SkillProductReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetSkillProductSrv()
-		resp, err := l.SkillProduct(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetSkillProductSrv()
+	resp, err = l.SkillProduct(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }

@@ -8,7 +8,6 @@ import (
 	conf "gin-mall-backend/config"
 	"gin-mall-backend/consts"
 	"gin-mall-backend/pkg/utils/ctl"
-	util "gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/repository/db/model"
 	"gin-mall-backend/types"
@@ -31,12 +30,10 @@ func GetFavoriteSrv() *FavoriteSrv {
 func (s *FavoriteSrv) FavoriteList(ctx context.Context, req *types.FavoritesServiceReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	favorites, total, err := dao.NewFavoritesDao(ctx).ListFavoriteByUserId(u.Id, req.PageSize, req.PageNum)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 	for i := range favorites {
@@ -57,34 +54,29 @@ func (s *FavoriteSrv) FavoriteList(ctx context.Context, req *types.FavoritesServ
 func (s *FavoriteSrv) FavoriteCreate(ctx context.Context, req *types.FavoriteCreateReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	fDao := dao.NewFavoritesDao(ctx)
 	exist, _ := fDao.FavoriteExistOrNot(req.ProductId, u.Id)
 	if exist {
 		err = errors.New("已经存在了")
-		util.LogrusObj.Error(err)
 		return
 	}
 
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.GetUserById(u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
 	bossDao := dao.NewUserDaoByDB(userDao.DB)
 	boss, err := bossDao.GetUserById(req.BossId)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
 	product, err := dao.NewProductDao(ctx).GetProductById(req.ProductId)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -98,7 +90,6 @@ func (s *FavoriteSrv) FavoriteCreate(ctx context.Context, req *types.FavoriteCre
 	}
 	err = fDao.CreateFavorite(favorite)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -110,7 +101,6 @@ func (s *FavoriteSrv) FavoriteDelete(ctx context.Context, req *types.FavoriteDel
 	favoriteDao := dao.NewFavoritesDao(ctx)
 	err = favoriteDao.DeleteFavoriteById(req.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 

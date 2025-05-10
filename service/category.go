@@ -4,7 +4,6 @@ import (
 	"context"
 	"sync"
 
-	util "gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/types"
 )
@@ -26,7 +25,6 @@ func GetCategorySrv() *CategorySrv {
 func (s *CategorySrv) CategoryList(ctx context.Context, req *types.ListCategoryReq) (resp interface{}, err error) {
 	categories, err := dao.NewCategoryDao(ctx).ListCategory()
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 	cResp := make([]*types.ListCategoryResp, 0)

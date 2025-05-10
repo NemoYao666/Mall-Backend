@@ -9,7 +9,6 @@ import (
 	conf "gin-mall-backend/config"
 	"gin-mall-backend/consts"
 	"gin-mall-backend/pkg/utils/ctl"
-	"gin-mall-backend/pkg/utils/log"
 	util "gin-mall-backend/pkg/utils/upload"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/repository/db/model"
@@ -33,7 +32,6 @@ func GetProductSrv() *ProductSrv {
 func (s *ProductSrv) ProductShow(ctx context.Context, req *types.ProductShowReq) (resp interface{}, err error) {
 	p, err := dao.NewProductDao(ctx).ShowProductById(req.ID)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 	pResp := &types.ProductResp{
@@ -63,11 +61,10 @@ func (s *ProductSrv) ProductShow(ctx context.Context, req *types.ProductShowReq)
 	return
 }
 
-// 创建商品
+// ProductCreate 创建商品
 func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileHeader, req *types.ProductCreateReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return nil, err
 	}
 	uId := u.Id
@@ -81,7 +78,6 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 		path, err = util.UploadToCos(tmp, files[0].Filename)
 	}
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 	product := &model.Product{
@@ -101,10 +97,10 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 	productDao := dao.NewProductDao(ctx)
 	err = productDao.CreateProduct(product)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 
+	// 多协程并行传输图片至公有云
 	wg := new(sync.WaitGroup)
 	wg.Add(len(files))
 	for index, file := range files {
@@ -116,7 +112,6 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 			path, err = util.UploadToCos(tmp, file.Filename)
 		}
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return
 		}
 		productImg := &model.ProductImg{
@@ -125,7 +120,6 @@ func (s *ProductSrv) ProductCreate(ctx context.Context, files []*multipart.FileH
 		}
 		err = dao.NewProductImgDaoByDB(productDao.DB).CreateProductImg(productImg)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return
 		}
 		wg.Done()
@@ -146,7 +140,6 @@ func (s *ProductSrv) ProductList(ctx context.Context, req *types.ProductListReq)
 	products, _ := productDao.ListProductByCondition(condition, req.BasePage)
 	total, err = productDao.CountProductByCondition(condition)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 	pRespList := make([]*types.ProductResp, 0)
@@ -188,13 +181,12 @@ func (s *ProductSrv) ProductDelete(ctx context.Context, req *types.ProductDelete
 	u, _ := ctl.GetUserInfo(ctx)
 	err = dao.NewProductDao(ctx).DeleteProduct(req.ID, u.Id)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 	return
 }
 
-// 更新商品
+// ProductUpdate 更新商品
 func (s *ProductSrv) ProductUpdate(ctx context.Context, req *types.ProductUpdateReq) (resp interface{}, err error) {
 	product := &model.Product{
 		Name:       req.Name,
@@ -208,18 +200,16 @@ func (s *ProductSrv) ProductUpdate(ctx context.Context, req *types.ProductUpdate
 	}
 	err = dao.NewProductDao(ctx).UpdateProduct(req.ID, product)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 
 	return
 }
 
-// 搜索商品 TODO 后续用脚本同步数据MySQL到ES，用ES进行搜索
+// ProductSearch 搜索商品 TODO 后续用脚本同步数据MySQL到ES，用ES进行搜索
 func (s *ProductSrv) ProductSearch(ctx context.Context, req *types.ProductSearchReq) (resp interface{}, err error) {
 	products, count, err := dao.NewProductDao(ctx).SearchProduct(req.Info, req.BasePage)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 

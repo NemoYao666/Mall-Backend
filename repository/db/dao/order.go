@@ -28,7 +28,8 @@ func (dao *OrderDao) CreateOrder(order *model.Order) error {
 
 // ListOrderByCondition 获取订单List
 func (dao *OrderDao) ListOrderByCondition(uId uint, req *types.OrderListReq) (r []*types.OrderListResp, count int64, err error) {
-	// TODO 商城算是一个TOC的应用，TOC的应该是不允许join操作的，看看后续怎么改走缓存，比如走缓存，找找免费的CDN之类的
+	// TODO: 该商城属于 TOC 应用场景，应尽量避免数据库 join 操作以保证性能。
+	// 考虑后续使用缓存方案（如 Redis）优化查询，或借助 CDN 提升响应速度。
 	d := dao.DB.Model(&model.Order{}).
 		Where("user_id = ?", uId)
 	if req.Type != 0 {

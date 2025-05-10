@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"sync"
 
-	"gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/cache"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/repository/db/model"
@@ -40,7 +39,6 @@ func (s *SkillProductSrv) InitSkillGoods(ctx context.Context) (resp interface{},
 	}
 	err = dao.NewSkillGoodsDao(ctx).BatchCreate(spList)
 	if err != nil {
-		log.LogrusObj.Infoln(err)
 		return
 	}
 
@@ -48,13 +46,11 @@ func (s *SkillProductSrv) InitSkillGoods(ctx context.Context) (resp interface{},
 	for i := range spList {
 		jsonBytes, errx := json.Marshal(spList[i])
 		if errx != nil {
-			log.LogrusObj.Infoln(errx)
 			return
 		}
 		jsonString := string(jsonBytes)
 		_, errx = cache.RedisClient.LPush(ctx, cache.SkillProductListKey, jsonString).Result()
 		if errx != nil {
-			log.LogrusObj.Infoln(errx)
 			return nil, errx
 		}
 	}
@@ -69,14 +65,12 @@ func (s *SkillProductSrv) ListSkillGoods(ctx context.Context) (resp interface{},
 	// 获取列表
 	skillProductList, err := rc.LRange(ctx, cache.SkillProductListKey, 0, -1).Result()
 	if err != nil {
-		log.LogrusObj.Infoln(err)
 		return
 	}
 
 	if len(skillProductList) == 0 {
 		skill, errx := dao.NewSkillGoodsDao(ctx).ListSkillGoods()
 		if errx != nil {
-			log.LogrusObj.Infoln(errx)
 			return nil, errx
 		}
 
@@ -84,14 +78,12 @@ func (s *SkillProductSrv) ListSkillGoods(ctx context.Context) (resp interface{},
 			// 将结构体转换为JSON格式的字符串
 			jsonBytes, errx := json.Marshal(skill[i])
 			if errx != nil {
-				log.LogrusObj.Infoln(errx)
 				return
 			}
 			// 将字节数组转换为字符串
 			jsonString := string(jsonBytes)
 			_, errx = rc.LPush(ctx, cache.SkillProductListKey, jsonString).Result()
 			if errx != nil {
-				log.LogrusObj.Infoln(errx)
 				return nil, errx
 			}
 		}
@@ -111,14 +103,13 @@ func (s *SkillProductSrv) GetSkillGoods(ctx context.Context, req *types.GetSkill
 	resp, err = rc.Get(ctx,
 		fmt.Sprintf(cache.SkillProductKey, req.ProductId)).Result()
 	if err != nil {
-		log.LogrusObj.Infoln(err)
 		return
 	}
 
 	return
 }
 
-// SkillProduct 秒杀商品
+// SkillProduct 秒杀商品 TODO:落库
 func (s *SkillProductSrv) SkillProduct(ctx context.Context, req *types.SkillProductReq) (resp interface{}, err error) {
 	// 读缓存
 	rc := cache.RedisClient
@@ -126,7 +117,6 @@ func (s *SkillProductSrv) SkillProduct(ctx context.Context, req *types.SkillProd
 	resp, err = rc.Get(ctx,
 		fmt.Sprintf(cache.SkillProductKey, req.ProductId)).Result()
 	if err != nil {
-		log.LogrusObj.Infoln(err)
 		return
 	}
 

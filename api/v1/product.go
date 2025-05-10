@@ -2,179 +2,181 @@ package v1
 
 import (
 	"errors"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 
 	"gin-mall-backend/consts"
-	"gin-mall-backend/pkg/utils/ctl"
-	"gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/service"
 	"gin-mall-backend/types"
 )
 
 // CreateProductHandler 创建商品
-func CreateProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductCreateReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func CreateProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductCreateReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		form, _ := ctx.MultipartForm()
-		files := form.File["image"]
-		l := service.GetProductSrv()
-		resp, err := l.ProductCreate(ctx.Request.Context(), files, &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	form, _ := ctx.MultipartForm()
+	files := form.File["image"]
+	l := service.GetProductSrv()
+	resp, err = l.ProductCreate(ctx.Request.Context(), files, &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // ListProductsHandler 商品列表
-func ListProductsHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductListReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		if req.PageSize == 0 {
-			req.PageSize = consts.BaseProductPageSize
-		}
+func ListProductsHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductListReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductList(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+	if req.PageSize == 0 {
+		req.PageSize = consts.BaseProductPageSize
+	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductList(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // ShowProductHandler 商品详情
-func ShowProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductShowReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func ShowProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductShowReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductShow(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductShow(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // DeleteProductHandler 删除商品
-func DeleteProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductDeleteReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func DeleteProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductDeleteReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductDelete(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductDelete(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // UpdateProductHandler 更新商品
-func UpdateProductHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductUpdateReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func UpdateProductHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductUpdateReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductUpdate(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductUpdate(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
 // SearchProductsHandler 搜索商品
-func SearchProductsHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ProductSearchReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		if req.PageSize == 0 {
-			req.PageSize = consts.BasePageSize
-		}
+func SearchProductsHandler(ctx *gin.Context) {
+	var (
+		req  types.ProductSearchReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductSearch(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+	if req.PageSize == 0 {
+		req.PageSize = consts.BasePageSize
+	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductSearch(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }
 
-func ListProductImgHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.ListProductImgReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			// 参数校验
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		if req.ID == 0 {
-			err := errors.New("参数错误,id不能为空")
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
+func ListProductImgHandler(ctx *gin.Context) {
+	var (
+		req  types.ListProductImgReq
+		resp interface{}
+		err  error
+	)
+	defer func() {
+		StandardResponse(ctx, err, resp)
+	}()
 
-		l := service.GetProductSrv()
-		resp, err := l.ProductImgList(ctx.Request.Context(), &req)
-		if err != nil {
-			log.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(ctx, err))
-			return
-		}
-		ctx.JSON(http.StatusOK, ctl.RespSuccess(ctx, resp))
+	if err = ctx.ShouldBind(&req); err != nil {
+		return
 	}
+	if req.ID == 0 {
+		err = errors.New("参数错误,id不能为空")
+		return
+	}
+
+	l := service.GetProductSrv()
+	resp, err = l.ProductImgList(ctx.Request.Context(), &req)
+	if err != nil {
+		return
+	}
+
 }

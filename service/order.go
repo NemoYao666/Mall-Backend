@@ -13,7 +13,6 @@ import (
 	conf "gin-mall-backend/config"
 	"gin-mall-backend/consts"
 	"gin-mall-backend/pkg/utils/ctl"
-	util "gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/cache"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/repository/db/model"
@@ -38,7 +37,6 @@ func GetOrderSrv() *OrderSrv {
 func (s *OrderSrv) OrderCreate(ctx context.Context, req *types.OrderCreateReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	order := &model.Order{
@@ -52,7 +50,6 @@ func (s *OrderSrv) OrderCreate(ctx context.Context, req *types.OrderCreateReq) (
 	addressDao := dao.NewAddressDao(ctx)
 	address, err := addressDao.GetAddressByAid(req.AddressID, u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -67,7 +64,6 @@ func (s *OrderSrv) OrderCreate(ctx context.Context, req *types.OrderCreateReq) (
 	orderDao := dao.NewOrderDao(ctx)
 	err = orderDao.CreateOrder(order)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 
@@ -84,12 +80,10 @@ func (s *OrderSrv) OrderCreate(ctx context.Context, req *types.OrderCreateReq) (
 func (s *OrderSrv) OrderList(ctx context.Context, req *types.OrderListReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	orders, total, err := dao.NewOrderDao(ctx).ListOrderByCondition(u.Id, req)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 	for i := range orders {
@@ -109,12 +103,10 @@ func (s *OrderSrv) OrderList(ctx context.Context, req *types.OrderListReq) (resp
 func (s *OrderSrv) OrderShow(ctx context.Context, req *types.OrderShowReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return nil, err
 	}
 	order, err := dao.NewOrderDao(ctx).ShowOrderById(req.OrderId, u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 	if conf.Config.System.UploadModel == consts.UploadModelLocal {
@@ -129,12 +121,10 @@ func (s *OrderSrv) OrderShow(ctx context.Context, req *types.OrderShowReq) (resp
 func (s *OrderSrv) OrderDelete(ctx context.Context, req *types.OrderDeleteReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 	err = dao.NewOrderDao(ctx).DeleteOrderById(req.OrderId, u.Id)
 	if err != nil {
-		util.LogrusObj.Error(err)
 		return
 	}
 

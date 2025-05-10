@@ -10,7 +10,6 @@ import (
 
 	"gin-mall-backend/consts"
 	"gin-mall-backend/pkg/utils/ctl"
-	"gin-mall-backend/pkg/utils/log"
 	"gin-mall-backend/repository/db/dao"
 	"gin-mall-backend/repository/db/model"
 	"gin-mall-backend/types"
@@ -35,7 +34,6 @@ func GetPaymentSrv() *PaymentSrv {
 func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (resp interface{}, err error) {
 	u, err := ctl.GetUserInfo(ctx)
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return nil, err
 	}
 	err = dao.NewOrderDao(ctx).Transaction(func(tx *gorm.DB) error {
@@ -43,7 +41,6 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 
 		payment, err := dao.NewOrderDaoByDB(tx).GetOrderById(req.OrderId, uId)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 		money := payment.Money
@@ -53,18 +50,15 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 		userDao := dao.NewUserDaoByDB(tx)
 		user, err := userDao.GetUserById(uId)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 
 		// 对钱进行解密。减去订单。再进行加密。
 		moneyFloat, err := user.DecryptMoney(req.Key)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 		if moneyFloat-money < 0.0 { // 金额不足进行回滚
-			log.LogrusObj.Error(err)
 			return errors.New("金币不足")
 		}
 
@@ -72,19 +66,16 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 		user.Money = finMoney
 		user.Money, err = user.EncryptMoney(req.Key)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 
 		err = userDao.UpdateUserById(uId, user)
 		if err != nil { // 更新用户金额失败，回滚
-			log.LogrusObj.Error(err)
 			return err
 		}
 
 		boss, err := userDao.GetUserById(uint(req.BossID))
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 
@@ -93,26 +84,22 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 		boss.Money = finMoney
 		boss.Money, err = boss.EncryptMoney(req.Key)
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 
 		err = userDao.UpdateUserById(uint(req.BossID), boss)
 		if err != nil { // 更新boss金额失败，回滚
-			log.LogrusObj.Error(err)
 			return err
 		}
 
 		productDao := dao.NewProductDaoByDB(tx)
 		product, err := productDao.GetProductById(uint(req.ProductID))
 		if err != nil {
-			log.LogrusObj.Error(err)
 			return err
 		}
 		product.Num -= num
 		err = productDao.UpdateProduct(uint(req.ProductID), product)
 		if err != nil { // 更新商品数量减少失败，回滚
-			log.LogrusObj.Error(err)
 			return err
 		}
 
@@ -120,7 +107,6 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 		payment.Type = consts.OrderTypePendingShipping
 		err = dao.NewOrderDaoByDB(tx).UpdateOrderById(req.OrderId, uId, payment)
 		if err != nil { // 更新订单失败，回滚
-			log.LogrusObj.Error(err)
 			return err
 		}
 
@@ -141,7 +127,6 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 
 		err = productDao.CreateProduct(&productUser)
 		if err != nil { // 买完商品后创建成了自己的商品失败。订单失败，回滚
-			log.LogrusObj.Error(err)
 			return err
 		}
 
@@ -150,7 +135,6 @@ func (s *PaymentSrv) PayDown(ctx context.Context, req *types.PaymentDownReq) (re
 	})
 
 	if err != nil {
-		log.LogrusObj.Error(err)
 		return
 	}
 
